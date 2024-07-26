@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cloudpos.aidl.tester"
+    >
+
+    <!-- For android.media.audiofx.Visualizer -->
+    <uses-permission android:name="android.permission.CLOUDPOS_SET_USR_PROP" />
+    <uses-permission android:name="android.permission.CLOUDPOS_LOCK_STATUS_BAR" />
+    <uses-permission android:name="android.permission.CLOUDPOS_REBOOT" />
+    <uses-permission android:name="android.permission.REBOOT" />
+    <uses-permission android:name="android.permission.MANAGE_ACTIVITY_STACKS" />
+    <uses-permission android:name="android.permission.CLOUDPOS_SET_UNKOWN_SOURCE" />
+    <uses-permission android:name="android.permission.CLOUDPOS_SET_BATTERY_COUNTER_MODE" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.wizarpos.permission.WRITE_APN_SETTINGS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <!-- cloudpos_service_auto_start , cloudpos_receiver_auto_start -->
+        <!--        <meta-data android:name="cloudpos_activity_auto_start" android:value="com.wizarpos.aidl.tester.MainActivity" />-->
+        <!--        <meta-data android:name="cloudpos_receiver_auto_start" android:value="com.wizarpos.aidl.tester.XXXXReceiver" />-->
+        <meta-data android:name="cloudpos_service_auto_start" android:value="com.cloudpos.aidl.tester.XXXXService" />
+        <activity android:name="com.cloudpos.aidl.tester.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
