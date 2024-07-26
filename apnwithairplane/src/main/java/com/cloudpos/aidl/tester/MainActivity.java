@@ -20,8 +20,11 @@ import com.cloudpos.utils.TextViewUtil;
 import com.wizarpos.wizarviewagentassistant.aidl.IAPNManagerService;
 
 
-
 public class MainActivity extends AbstractActivity implements OnClickListener, ServiceConnection {
+
+    boolean enable = true;
+    private final boolean enableBlocked = true;
+    private IAPNManagerService iapnManagerService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,6 @@ public class MainActivity extends AbstractActivity implements OnClickListener, S
 
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -91,15 +93,19 @@ public class MainActivity extends AbstractActivity implements OnClickListener, S
         return isSuccess;
     }
 
-    boolean enable = true;
-
     @Override
     public void onClick(View arg0) {
         int index = arg0.getId();
         if (index == R.id.btn_test1) {
             try {
-                AidlHelper.getInstance(this).enableAirPlaneMode(enable, completionListener);
-                enable = !enable;
+                AidlHelper.getInstance(this).enableAirPlaneMode(enable, new AidlHelper.CompletionListener() {
+                    @Override
+                    public void onTaskCompleted(boolean success, String errMsg) {
+                        String flag = success ? "success" : "failed";
+                        writerInSuccessLog("enableAirPlaneMode(" + enable + ") result: " + flag + " !\n");
+                        if (success) enable = !enable;
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -117,10 +123,6 @@ public class MainActivity extends AbstractActivity implements OnClickListener, S
         }
     }
 
-    private boolean enableBlocked = true;
-
-    private IAPNManagerService iapnManagerService;
-
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
         try {
@@ -137,12 +139,5 @@ public class MainActivity extends AbstractActivity implements OnClickListener, S
     public void onServiceDisconnected(ComponentName name) {
 
     }
-
-    private AidlHelper.CompletionListener completionListener = new AidlHelper.CompletionListener() {
-        @Override
-        public void onTaskCompleted(boolean success, String errMsg) {
-            writerInSuccessLog("enableAirPlaneMode(" + enable + ") result:" + success + "\n");
-        }
-    };
 
 }
